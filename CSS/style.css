@@ -1,0 +1,16 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: 0;
+}
+.animate-hover-card{
+    transition: transform 0.2s ease-in;
+}
+.animate-hover-card:hover{
+    cursor: pointer;
+    transform: scale(1.03);
+}
+nav{
+background: linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%);
+}
+
