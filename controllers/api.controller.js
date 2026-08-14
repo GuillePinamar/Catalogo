@@ -1,7 +1,18 @@
 import db from "../db/connection.js";
 
 export const getProductos = (req, res) => {
-  const query = "SELECT * FROM productos";
+  // Realizamos un LEFT JOIN para traer todos los datos del producto y sus imágenes asociadas
+  const query = `
+    SELECT 
+      p.idproducto,
+      p.nombre,
+      p.precio,
+      p.detalle,
+      img.imagen AS blob_imagen,
+      img.url_imagen AS url_imagen
+    FROM productos p
+    LEFT JOIN imagenes_producto img ON p.idproducto = img.idproducto
+  `;
 
   db.query(query, (err, results) => {
     if (err) {
@@ -9,23 +20,44 @@ export const getProductos = (req, res) => {
       return res.status(500).json({ error: "Error en el servidor" });
     }
 
-    const datos = results.map(row => {
-      // Maneja si en tu tabla la columna es 'row.imagen' o si tienes múltiples imágenes formateadas
-      let imagenFormateada = null;
-      if (row.imagen) {
-        imagenFormateada = Buffer.isBuffer(row.imagen)
-          ? `data:image/jpeg;base64,${row.imagen.toString("base64")}`
-          : row.imagen;
+    // Como un producto puede tener varias filas por cada imagen en el JOIN, los agrupamos
+    const productosMap = {};
+
+    results.forEach(row => {
+      const id = row.idproducto || row.idproductos;
+
+      // Si el producto aún no está en el mapa, lo creamos
+      if (!productosMap[id]) {
+        productosMap[id] = {
+          idproducto: id,
+          nombre: row.nombre,
+          precio: row.precio,
+          detalle: row.detalle,
+          imagenes: []
+        };
       }
 
-      return {
-        idproducto: row.idproductos || row.idproducto,
-        nombre: row.nombre,
-        precio: row.precio,
-        detalle: row.detalle,
-        imagen: imagenFormateada
-      };
+      // Procesamos la imagen de la fila actual (si existe)
+      let imagenFormateada = null;
+
+      if (row.blob_imagen) {
+        // Si está guardada como BLOB / Buffer en la DB
+        imagenFormateada = Buffer.isBuffer(row.blob_imagen)
+          ? `data:image/jpeg;base64,${row.blob_imagen.toString("base64")}`
+          : row.blob_imagen;
+      } else if (row.url_imagen) {
+        // Si guardas la ruta o URL en formato texto
+        imagenFormateada = row.url_imagen;
+      }
+
+      // Si se obtuvo una imagen válida, se agrega al arreglo de imágenes del producto
+      if (imagenFormateada) {
+        productosMap[id].imagenes.push(imagenFormateada);
+      }
     });
+
+    // Convertimos el objeto en un Array de productos
+    const datos = Object.values(productosMap);
 
     res.json(datos);
   });
