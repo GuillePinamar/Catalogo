@@ -11,7 +11,7 @@ export const getProductos = (req, res) => {
       img.imagen AS blob_imagen,
       img.url_imagen AS url_imagen
     FROM productos p
-    LEFT JOIN imagenes_producto img ON p.idproducto = img.idproducto
+    LEFT JOIN imagenes_producto img ON p.idproductos = img.idproducto
   `;
 
   db.query(query, (err, results) => {
