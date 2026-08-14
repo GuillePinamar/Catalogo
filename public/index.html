@@ -2,133 +2,119 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vendo de Todo - Catálogo de Productos</title>
-    <link rel="shortcut icon" href="Media/shopping-store.png" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="CSS/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vendo de Todo - Catálogo de Productos</title>
+  <link rel="shortcut icon" href="Media/shopping-store.png" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="CSS/style.css"/>
 </head>
 
 <body class="d-flex flex-column min-vh-100 bg-light">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="index.html">
-                <i class="fas fa-basket-shopping me-2 text-warning"></i>Vendo de Todo
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="index.html">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Pages/SaveProducts.html">Agregar Producto</a>
-                    </li>
-                </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Buscar productos..." aria-label="Buscar">
-                    <button class="btn btn-outline-warning" type="submit">Buscar</button>
-                </form>
-            </div>
-        </div>
-    </nav>
-
-    <header class="bg-secondary text-white text-center py-4 shadow-sm">
-        <div class="container">
-            <h1 class="display-5 fw-bold mb-1">Catálogo de Productos</h1>
-            <p class="lead mb-0 small text-light">Encuentra los mejores artículos al mejor precio</p>
-        </div>
-    </header>
-
-    <main class="container my-5 flex-grow-1">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="productsCards">
-            </div>
-    </main>
-
-    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0 shadow">
-                <div class="modal-header bg-dark text-white">
-                    <h5 class="modal-title fw-bold" id="productModalLabel">Detalle del Producto</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <div class="row g-4 align-items-center">
-                        
-                        <div class="col-md-6">
-                            <div id="productCarousel" class="carousel slide rounded shadow-sm overflow-hidden" data-bs-ride="carousel">
-                                <div class="carousel-inner" id="carouselInner">
-                                    </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev" id="carouselPrevBtn">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Anterior</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next" id="carouselNextBtn">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Siguiente</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <h3 class="fw-bold mb-2" id="modalNombre"></h3>
-                            <h4 class="text-success fw-bold mb-3" id="modalPrecio"></h4>
-                            <hr>
-                            <h6 class="fw-bold text-uppercase text-muted small">Descripción</h6>
-                            <p class="text-secondary" id="modalDetalle" style="white-space: pre-line;"></p>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-secondary px-4 fw-bold" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">
+        <i class="fas fa-basket-shopping me-2 text-warning"></i>Vendo de Todo
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link text-white active" href="index.html">Inicio</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Buscar productos..." aria-label="Search">
+          <button class="btn btn-outline-warning" type="submit">Buscar</button>
+        </form>
+      </div>
     </div>
+  </nav>
 
-    <footer class="bg-dark text-white pt-4 pb-3 mt-auto">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <h5 class="text-warning fw-bold"><i class="fas fa-basket-shopping me-2"></i>Vendo de Todo</h5>
-                    <p class="small text-muted">Tu tienda de confianza. Ofrecemos calidad y rapidez en todos nuestros envíos.</p>
-                </div>
+  <header>
+    <div class="container-fluid bg-secondary text-white p-4 text-center shadow-sm">
+      <h1 class="display-5 fw-bold mb-1">Catálogo de Productos</h1>
+      <p class="lead mb-0 small text-light">Encuentra los mejores artículos al mejor precio</p>
+    </div>
+  </header>
 
-                <div class="col-md-4">
-                    <h5 class="text-warning fw-bold">Contactos</h5>
-                    <p class="mb-1 small">
-                        <i class="fab fa-whatsapp text-success me-2 fs-5"></i>
-                        <a href="https://wa.me/02254416588" class="text-white text-decoration-none" target="_blank">02254416588</a>
-                    </p>
-                    <p class="mb-0 small">
-                        <i class="fab fa-whatsapp text-success me-2 fs-5"></i>
-                        <a href="https://wa.me/02267660711" class="text-white text-decoration-none" target="_blank">02267660711</a>
-                    </p>
-                </div>
+  <main class="container my-5 flex-grow-1">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="productsCards">
+      </div>
+  </main>
 
-                <div class="col-md-4">
-                    <h5 class="text-warning fw-bold">Medios de Pago</h5>
-                    <p class="mb-1 small"><i class="far fa-money-bill-1 text-info me-2"></i> Efectivo</p>
-                    <p class="mb-0 small"><i class="fas fa-money-bill-transfer text-info me-2"></i> Transferencia bancaria</p>
-                </div>
+  <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title fw-bold" id="productModalLabel">Detalle del Producto</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="row g-4 align-items-center">
+            
+            <div class="col-md-6">
+              <div id="productCarousel" class="carousel slide rounded shadow-sm overflow-hidden" data-bs-ride="carousel">
+                <div class="carousel-inner" id="carouselInner">
+                  </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev" id="carouselPrevBtn">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next" id="carouselNextBtn">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Siguiente</span>
+                </button>
+              </div>
             </div>
 
-            <hr class="my-3 border-secondary">
-
-            <div class="text-center small text-muted">
-                &copy; 2026 Vendo de Todo. Todos los derechos reservados.
+            <div class="col-md-6">
+              <h3 class="fw-bold mb-2" id="modalNombre"></h3>
+              <h4 class="text-success fw-bold mb-3" id="modalPrecio"></h4>
+              <hr>
+              <h6 class="fw-bold text-uppercase text-muted small">Descripción</h6>
+              <p class="text-secondary" id="modalDetalle" style="white-space: pre-line;"></p>
             </div>
-        </div>      
-    </footer>
 
-    <script src="JS/GetRequests.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-</body>
+          </div>
+        </div>
+        <div class="modal-footer bg-light">
+          <button type="button" class="btn btn-secondary px-4 fw-bold" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-</html>
+  <footer class="bg-dark text-white pt-4 pb-3 mt-auto w-100">
+    <div class="container">
+      <div class="row g-4">
+        
+        <div class="col-md-4">
+          <h5 class="text-warning fw-bold">
+            <i class="fas fa-basket-shopping me-2"></i>Vendo de Todo
+          </h5>
+          <p class="small text-muted">
+            Tu tienda de confianza. Ofrecemos calidad y rapidez en todos nuestros envíos.
+          </p>
+        </div>
+
+        <div class="col-md-4">
+          <h5 class="text-warning fw-bold">Contactos</h5>
+          <p class="mb-1 small">
+            <i class="fab fa-whatsapp text-success me-2 fs-5"></i>
+            <a href="https://wa.me/02254416588" class="text-white text-decoration-none" target="_blank">02254416588</a>
+          </p>
+          <p class="mb-0 small">
+            <i class="fab fa-whatsapp text-success me-2 fs-5"></i>
+            <a href="https://wa.me/02267660711" class="text-white text-decoration-none" target="_blank">02267660711</a>
+          </p>
+        </div>
+
+        <div class="col-md-4">
+          <h5 class="text-warning fw-bold">Medios de Pago</h5>
+          <p class="mb-1 small"><i class="far fa-money-bill-1 text-info me-2"></i> Efectivo</p>
+          <p class="mb-0 small">
