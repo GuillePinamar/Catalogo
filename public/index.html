@@ -6,9 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vendo de Todo - Catálogo de Productos</title>
   <link rel="shortcut icon" href="Media/shopping-store.png" type="image/x-icon">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="CSS/style.css"/>
+  <link rel="stylesheet" href="CSS/style.css" />
 </head>
 
 <body class="d-flex flex-column min-vh-100 bg-light">
@@ -18,7 +19,8 @@
       <a class="navbar-brand fw-bold" href="index.html">
         <i class="fas fa-basket-shopping me-2 text-warning"></i>Vendo de Todo
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -44,7 +46,7 @@
 
   <main class="container my-5 flex-grow-1">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="productsCards">
-      </div>
+    </div>
   </main>
 
   <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
@@ -56,16 +58,19 @@
         </div>
         <div class="modal-body p-4">
           <div class="row g-4 align-items-center">
-            
+
             <div class="col-md-6">
-              <div id="productCarousel" class="carousel slide rounded shadow-sm overflow-hidden" data-bs-ride="carousel">
+              <div id="productCarousel" class="carousel slide rounded shadow-sm overflow-hidden"
+                data-bs-ride="carousel">
                 <div class="carousel-inner" id="carouselInner">
-                  </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev" id="carouselPrevBtn">
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel"
+                  data-bs-slide="prev" id="carouselPrevBtn">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Anterior</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next" id="carouselNextBtn">
+                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel"
+                  data-bs-slide="next" id="carouselNextBtn">
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Siguiente</span>
                 </button>
@@ -92,12 +97,12 @@
   <footer class="bg-dark text-white pt-4 pb-3 mt-auto w-100">
     <div class="container">
       <div class="row g-4">
-        
+
         <div class="col-md-4">
           <h5 class="text-warning fw-bold">
             <i class="fas fa-basket-shopping me-2"></i>Vendo de Todo
           </h5>
-          <p class="small text-muted">
+          <p class="small text-white-50">
             Tu tienda de confianza. Ofrecemos calidad y rapidez en todos nuestros envíos.
           </p>
         </div>
@@ -127,11 +132,13 @@
       <div class="text-center small text-muted">
         &copy; 2026 Vendo de Todo. Todos los derechos reservados.
       </div>
-    </div>      
+    </div>
   </footer>
 
-  <script src="JS/GetRequests.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script src="Js/GetRequests.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
