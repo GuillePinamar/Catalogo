@@ -51,44 +51,45 @@
 
   <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content border-0 shadow">
-        <div class="modal-header bg-dark text-white">
-          <h5 class="modal-title fw-bold" id="productModalLabel">Detalle del Producto</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-content">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold fs-4" id="modalNombre">Nombre del Producto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body p-4">
-          <div class="row g-4 align-items-center">
 
-            <div class="col-md-6">
-              <div id="productCarousel" class="carousel slide rounded shadow-sm overflow-hidden"
-                data-bs-ride="carousel">
-                <div class="carousel-inner" id="carouselInner">
+        <div class="modal-body">
+          <div class="row g-4">
+            <div class="col-md-7">
+              <div id="productCarousel" class="carousel slide" data-bs-ride="false">
+                <div class="carousel-inner rounded bg-light" id="carouselInner">
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel"
-                  data-bs-slide="prev" id="carouselPrevBtn">
+
+                <button class="carousel-control-prev" type="button" id="carouselPrevBtn"
+                  data-bs-target="#productCarousel" data-bs-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Anterior</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel"
-                  data-bs-slide="next" id="carouselNextBtn">
+                <button class="carousel-control-next" type="button" id="carouselNextBtn"
+                  data-bs-target="#productCarousel" data-bs-slide="next">
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Siguiente</span>
                 </button>
               </div>
             </div>
 
-            <div class="col-md-6">
-              <h3 class="fw-bold mb-2" id="modalNombre"></h3>
-              <h4 class="text-success fw-bold mb-3" id="modalPrecio"></h4>
-              <hr>
-              <h6 class="fw-bold text-uppercase text-muted small">Descripción</h6>
-              <p class="text-secondary" id="modalDetalle" style="white-space: pre-line;"></p>
-            </div>
+            <div class="col-md-5 d-flex flex-column justify-content-between">
+              <div>
+                <h3 class="text-success fw-bold mb-3" id="modalPrecio">$0.00</h3>
+                <p class="text-muted" id="modalDetalle">Descripción del producto...</p>
+              </div>
 
+              <div class="mt-4">
+                <button type="button" class="btn btn-primary btn-lg w-100 fw-bold" data-bs-dismiss="modal">
+                  Cerrar
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="modal-footer bg-light">
-          <button type="button" class="btn btn-secondary px-4 fw-bold" data-bs-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>
