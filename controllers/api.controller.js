@@ -1,64 +1,67 @@
 import db from "../db/connection.js";
 
 export const getProductos = (req, res) => {
-  // Realizamos un LEFT JOIN para traer todos los datos del producto y sus imágenes asociadas
+  // Probamos la consulta
   const query = `
     SELECT 
-      p.idproductos,
-      p.nombre,
-      p.precio,
-      p.detalle,
-      img.imagen AS blob_imagen,
-      img.url_imagen AS url_imagen
+      p.*, 
+      img.imagen AS blob_imagen, 
+      img.url_imagen AS url_imagen 
     FROM productos p
-    LEFT JOIN imagenes_producto img ON p.idproductos = img.idproducto
+    LEFT JOIN imagenes_producto img ON p.idproducto = img.idproducto
   `;
 
   db.query(query, (err, results) => {
     if (err) {
-      console.error("Error al obtener datos:", err);
-      return res.status(500).json({ error: "Error en el servidor" });
+      // ESTO MOSTRARÁ EL ERROR REAL EN TU TERMINAL
+      console.error("--- ERROR EN MYSQL ---");
+      console.error(err);
+      
+      return res.status(500).json({ 
+        error: "Error en el servidor", 
+        detalleSQL: err.sqlMessage || err.toString() 
+      });
     }
 
-    // Como un producto puede tener varias filas por cada imagen en el JOIN, los agrupamos
-    const productosMap = {};
+    try {
+      const productosMap = {};
 
-    results.forEach(row => {
-      const id = row.idproducto || row.idproductos;
+      results.forEach(row => {
+        const id = row.idproducto || row.idproductos || row.id;
 
-      // Si el producto aún no está en el mapa, lo creamos
-      if (!productosMap[id]) {
-        productosMap[id] = {
-          idproducto: id,
-          nombre: row.nombre,
-          precio: row.precio,
-          detalle: row.detalle,
-          imagenes: []
-        };
-      }
+        if (!productosMap[id]) {
+          productosMap[id] = {
+            idproducto: id,
+            nombre: row.nombre,
+            precio: row.precio,
+            detalle: row.detalle || row.descripcion || "",
+            imagenes: []
+          };
+        }
 
-      // Procesamos la imagen de la fila actual (si existe)
-      let imagenFormateada = null;
+        let imagenFormateada = null;
 
-      if (row.blob_imagen) {
-        // Si está guardada como BLOB / Buffer en la DB
-        imagenFormateada = Buffer.isBuffer(row.blob_imagen)
-          ? `data:image/jpeg;base64,${row.blob_imagen.toString("base64")}`
-          : row.blob_imagen;
-      } else if (row.url_imagen) {
-        // Si guardas la ruta o URL en formato texto
-        imagenFormateada = row.url_imagen;
-      }
+        if (row.blob_imagen) {
+          imagenFormateada = Buffer.isBuffer(row.blob_imagen)
+            ? `data:image/jpeg;base64,${row.blob_imagen.toString("base64")}`
+            : row.blob_imagen;
+        } else if (row.url_imagen) {
+          imagenFormateada = row.url_imagen;
+        } else if (row.imagen) {
+          imagenFormateada = Buffer.isBuffer(row.imagen)
+            ? `data:image/jpeg;base64,${row.imagen.toString("base64")}`
+            : row.imagen;
+        }
 
-      // Si se obtuvo una imagen válida, se agrega al arreglo de imágenes del producto
-      if (imagenFormateada) {
-        productosMap[id].imagenes.push(imagenFormateada);
-      }
-    });
+        if (imagenFormateada) {
+          productosMap[id].imagenes.push(imagenFormateada);
+        }
+      });
 
-    // Convertimos el objeto en un Array de productos
-    const datos = Object.values(productosMap);
-
-    res.json(datos);
+      res.json(Object.values(productosMap));
+    } catch (e) {
+      console.error("Error procesando datos:", e);
+      res.status(500).json({ error: "Error al procesar imagenes" });
+    }
   });
 };
