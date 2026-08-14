@@ -3,11 +3,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchForm = document.querySelector("form[role='search']");
     const searchInput = searchForm ? searchForm.querySelector("input[type='search']") : null;
     
-    // Instancias de Bootstrap para el Modal y el Carrusel
+    // Instancias de Bootstrap para Modal y Carrusel
     const modalElement = document.getElementById('productModal');
     const productModal = modalElement ? new bootstrap.Modal(modalElement) : null;
     const carouselElement = document.getElementById('productCarousel');
     
+    // Elementos del DOM del Modal
     const modalNombre = document.getElementById('modalNombre');
     const modalPrecio = document.getElementById('modalPrecio');
     const modalDetalle = document.getElementById('modalDetalle');
@@ -17,7 +18,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let products = [];
 
-    // 1. Obtener listado de productos desde la API
+    // Función auxiliar para obtener las imágenes siempre en formato Array
+    function getImagenesArray(product) {
+        if (Array.isArray(product.imagenes) && product.imagenes.length > 0) {
+            return product.imagenes;
+        }
+        if (product.imagen) {
+            return [product.imagen];
+        }
+        return ["https://via.placeholder.com/500x400?text=Sin+Imagen"];
+    }
+
+    // 1. Obtener listado de productos
     function loadProductList() {
         fetch('/api/productos')
             .then(response => {
@@ -40,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // 2. Renderizar cards en la grilla principal
+    // 2. Renderizar cards en la grilla
     function renderProducts(productList) {
         if (!productCards) return;
         productCards.innerHTML = "";
@@ -48,20 +60,16 @@ document.addEventListener('DOMContentLoaded', function () {
         if (productList.length === 0) {
             productCards.innerHTML = `
                 <div class="col-12 text-center text-muted py-5">
-                    <p class="fs-5">No se encontraron productos coincidentes.</p>
+                    <p class="fs-5">No se encontraron productos.</p>
                 </div>
             `;
             return;
         }
 
         productList.forEach(product => {
-            // Manejar si el producto trae una lista de imágenes o solo una principal
-            let mainImg = "https://via.placeholder.com/300x200?text=Sin+Imagen";
-            if (Array.isArray(product.imagenes) && product.imagenes.length > 0) {
-                mainImg = product.imagenes[0];
-            } else if (product.imagen) {
-                mainImg = product.imagen;
-            }
+            // Obtenemos la primera imagen para mostrar en la card
+            const imagenes = getImagenesArray(product);
+            const mainImg = imagenes[0];
 
             const cardCol = document.createElement("div");
             cardCol.className = "col";
@@ -88,31 +96,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 3. Abrir Modal y cargar Carrusel de imágenes
+    // 3. Abrir Modal y cargar el Carrusel con las imágenes de la DB
     function openModal(idproducto) {
         const product = products.find(p => p.idproducto === idproducto);
         if (!product) return;
 
-        // Asignar los valores a los elementos del modal
         if (modalNombre) modalNombre.textContent = product.nombre;
         if (modalPrecio) modalPrecio.textContent = `$${parseFloat(product.precio).toFixed(2)}`;
-        
-        // Soporta tanto si la BD usa 'detalle' como si usa 'descripcion'
-        if (modalDetalle) {
-            modalDetalle.textContent = product.detalle || product.descripcion || "Sin descripción disponible.";
-        }
+        if (modalDetalle) modalDetalle.textContent = product.detalle || product.descripcion || "Sin descripción disponible.";
 
-        // Determinar listado de imágenes para el carrusel
-        let imgList = [];
-        if (Array.isArray(product.imagenes) && product.imagenes.length > 0) {
-            imgList = product.imagenes;
-        } else if (product.imagen) {
-            imgList = [product.imagen];
-        } else {
-            imgList = ["https://via.placeholder.com/500x400?text=Sin+Imagen"];
-        }
+        // Obtenemos la lista completa de imágenes procesadas por el backend
+        const imgList = getImagenesArray(product);
 
-        // Construir slides del carrusel dinámicamente
+        // Limpiamos e insertamos los items del carrusel
         if (carouselInner) {
             carouselInner.innerHTML = "";
             imgList.forEach((imgSrc, index) => {
@@ -127,18 +123,18 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
-        // Mostrar u ocultar controles prev/next si hay más de 1 imagen
+        // Mostrar u ocultar botones de Anterior/Siguiente si hay más de 1 imagen
         const hasMultiple = imgList.length > 1;
         if (carouselPrevBtn) carouselPrevBtn.style.display = hasMultiple ? "flex" : "none";
         if (carouselNextBtn) carouselNextBtn.style.display = hasMultiple ? "flex" : "none";
 
-        // Reiniciar el carrusel en la primera imagen (Slide 0)
+        // Reiniciamos el carrusel a la primera foto (índice 0)
         if (carouselElement) {
             const bsCarousel = bootstrap.Carousel.getOrCreateInstance(carouselElement);
             bsCarousel.to(0);
         }
 
-        // Mostrar el modal
+        // Mostramos el modal
         if (productModal) {
             productModal.show();
         }
@@ -152,7 +148,6 @@ document.addEventListener('DOMContentLoaded', function () {
         renderProducts(productosFiltrados);
     }
 
-    // Escuchar eventos en el buscador si existe
     if (searchForm && searchInput) {
         searchForm.addEventListener("submit", function (e) {
             e.preventDefault();
@@ -164,7 +159,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Cargar la lista al iniciar
     loadProductList();
 });
 
