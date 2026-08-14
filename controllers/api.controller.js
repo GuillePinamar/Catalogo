@@ -4,7 +4,7 @@ export const getProductos = (req, res) => {
   // Realizamos un LEFT JOIN para traer todos los datos del producto y sus imágenes asociadas
   const query = `
     SELECT 
-      p.idproducto,
+      p.idproductos,
       p.nombre,
       p.precio,
       p.detalle,
