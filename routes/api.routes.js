@@ -3,7 +3,8 @@ import { getProductos } from "../controllers/api.controller.js";
 
 const router = Router();
 
-router.get("/", getProductos);
+// Ahora la ruta completa será GET /api/productos
+router.get("/productos", getProductos);
 
 export default router;
 

@@ -18,13 +18,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let products = [];
 
-    // Función auxiliar para obtener las imágenes siempre en formato Array
+    // Función auxiliar para obtener las imágenes
     function getImagenesArray(product) {
         if (Array.isArray(product.imagenes) && product.imagenes.length > 0) {
             return product.imagenes;
-        }
-        if (product.imagen) {
-            return [product.imagen];
         }
         return ["https://via.placeholder.com/500x400?text=Sin+Imagen"];
     }
@@ -67,20 +64,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         productList.forEach(product => {
-            // Obtenemos la primera imagen para mostrar en la card
             const imagenes = getImagenesArray(product);
             const mainImg = imagenes[0];
+            const precioFormatted = Number(product.precio || 0).toLocaleString('es-AR', { minimumFractionDigits: 2 });
 
             const cardCol = document.createElement("div");
             cardCol.className = "col";
             cardCol.innerHTML = `
-                <div class="card h-100 shadow-sm border-0" data-product-id="${product.idproducto}">
+                <div class="card h-100 shadow-sm border-0 animate-hover-card" data-product-id="${product.idproducto}">
                     <div class="ratio ratio-4x3 bg-light overflow-hidden rounded-top">
                         <img src="${mainImg}" class="card-img-top object-fit-cover" alt="${product.nombre}">
                     </div>
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title fw-bold text-dark text-truncate">${product.nombre}</h5>
-                        <p class="card-text text-success fw-bold fs-5 mb-3">$${parseFloat(product.precio).toFixed(2)}</p>
+                        <p class="card-text text-success fw-bold fs-5 mb-3">$${precioFormatted}</p>
                         <button class="btn btn-outline-dark mt-auto w-100 fw-bold btn-detalle">
                             <i class="fa-solid fa-eye me-2"></i>Ver Detalle
                         </button>
@@ -88,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
             `;
 
-            // Evento para abrir el modal
             const btnDetalle = cardCol.querySelector(".btn-detalle");
             btnDetalle.addEventListener("click", () => openModal(product.idproducto));
 
@@ -96,19 +92,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 3. Abrir Modal y cargar el Carrusel con las imágenes de la DB
+    // 3. Abrir Modal y cargar el Carrusel
     function openModal(idproducto) {
         const product = products.find(p => p.idproducto === idproducto);
         if (!product) return;
 
-        if (modalNombre) modalNombre.textContent = product.nombre;
-        if (modalPrecio) modalPrecio.textContent = `$${parseFloat(product.precio).toFixed(2)}`;
-        if (modalDetalle) modalDetalle.textContent = product.detalle || product.descripcion || "Sin descripción disponible.";
+        const precioFormatted = Number(product.precio || 0).toLocaleString('es-AR', { minimumFractionDigits: 2 });
 
-        // Obtenemos la lista completa de imágenes procesadas por el backend
+        if (modalNombre) modalNombre.textContent = product.nombre;
+        if (modalPrecio) modalPrecio.textContent = `$${precioFormatted}`;
+        if (modalDetalle) modalDetalle.textContent = product.detalle || "Sin descripción disponible.";
+
         const imgList = getImagenesArray(product);
 
-        // Limpiamos e insertamos los items del carrusel
         if (carouselInner) {
             carouselInner.innerHTML = "";
             imgList.forEach((imgSrc, index) => {
@@ -123,18 +119,15 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
-        // Mostrar u ocultar botones de Anterior/Siguiente si hay más de 1 imagen
         const hasMultiple = imgList.length > 1;
         if (carouselPrevBtn) carouselPrevBtn.style.display = hasMultiple ? "flex" : "none";
         if (carouselNextBtn) carouselNextBtn.style.display = hasMultiple ? "flex" : "none";
 
-        // Reiniciamos el carrusel a la primera foto (índice 0)
         if (carouselElement) {
             const bsCarousel = bootstrap.Carousel.getOrCreateInstance(carouselElement);
             bsCarousel.to(0);
         }
 
-        // Mostramos el modal
         if (productModal) {
             productModal.show();
         }
